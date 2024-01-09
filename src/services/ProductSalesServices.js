@@ -11,7 +11,7 @@ const ProductsTotalSalesRevenue = async (req) => {
         }
       }
     ]);
-// console.log(data)
+console.log(data)
     // Access the totalRevenue from the result
     const totalRevenue = data.length > 0 ? data[0].totalRevenue : 0;
 
@@ -19,6 +19,7 @@ const ProductsTotalSalesRevenue = async (req) => {
     
     return { status: "success", data: data };
   } catch (e) {
+    console.log(e)
     return { status: "fail", data: e };
   }
 }
@@ -117,6 +118,41 @@ const ProductsRevenuePriceByMonthYear = async (req) => {
     return { status: "fail", data: e };
   }
 }
+const ProductsRevenuePriceByDay = async (req) => {
+  try {
+    const data = await saleModel.aggregate([
+      {
+        $group: {
+          _id: {
+            date: "$date",
+            product: "$product"
+          },
+          totalQuantity: { $sum: "$quantity" }
+        }
+      },
+      {
+        $sort: { totalQuantity: -1 }
+      },
+      {
+        $limit: 1
+      },
+      {
+        $project: {
+          _id: 0,
+          product: "$_id.product",
+          date: "$_id.date",
+          totalQuantity: 1
+        }
+      }
+    ]);
+
+    console.log(data);
+
+    return { status: "success", data: data };
+  } catch (e) {
+    return { status: "fail", data: e };
+  }
+}
 
 
 module.exports = {
@@ -124,6 +160,7 @@ module.exports = {
   ProductsQuantityBySale,
   ProductsTopBySale,
   ProductsAveragePriceBySale,
-  ProductsRevenuePriceByMonthYear
+  ProductsRevenuePriceByMonthYear,
+  ProductsRevenuePriceByDay
 
 }

@@ -11,4 +11,5 @@ router.get('/TotalQuantity',ProductSalesController.TotalQuantity)
 router.get('/TopProducts',ProductSalesController.TopProducts)
 router.get('/AveragePrice',ProductSalesController.AveragePrice)
 router.get('/RevenueByMonth',ProductSalesController.RevenueByMonth)
+router.get('/RevenueByDay',ProductSalesController.RevenueByDay)
 module.exports=router;

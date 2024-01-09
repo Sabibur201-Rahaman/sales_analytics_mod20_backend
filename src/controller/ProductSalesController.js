@@ -1,4 +1,4 @@
-const { ProductsTotalSalesRevenue, ProductsQuantityBySale, ProductsTopBySale, ProductsAveragePriceBySale, ProductsRevenuePriceByMonthYear, } = require("../services/ProductSalesServices");
+const { ProductsTotalSalesRevenue, ProductsQuantityBySale, ProductsTopBySale, ProductsAveragePriceBySale, ProductsRevenuePriceByMonthYear, ProductsRevenuePriceByDay, } = require("../services/ProductSalesServices");
 
 
 const TotalRevenue=async(req,res)=>{
@@ -21,11 +21,16 @@ const RevenueByMonth=async(req,res)=>{
 let result=await ProductsRevenuePriceByMonthYear(req);
 return res.status(200).json(result)
 }
+const RevenueByDay=async(req,res)=>{
+    let result=await ProductsRevenuePriceByDay(req);
+    return res.status(200).json(result)
+    }
 
 module.exports={
     TotalRevenue,
     TotalQuantity,
     TopProducts,
     AveragePrice,
-    RevenueByMonth
+    RevenueByMonth,
+    RevenueByDay
 }
